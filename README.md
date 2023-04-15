@@ -1,4 +1,4 @@
-# Yet Another Numeric Library in Python
+# Yet Another Numeric Library
 
 My similar projects
 
