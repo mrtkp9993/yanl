@@ -1,3 +1,4 @@
+
 # Yet Another Numeric Library
 
 My similar projects
@@ -13,9 +14,15 @@ My similar projects
 - [ ] Optimization algorithms
 - [ ] Random number generation
 - [ ] Distribution fitting
-- [ ] Simulation of stochastic processes
 - [ ] Simulating stochastic differential equations
+	- [ ] Euler scheme
+	- [ ] Milstein scheme 
 - [ ] Estimating stochastic differential equations
+	- [ ] Pseudo-likelihood methods
+		- [ ] Euler method
+		- [ ] Elerian method
+	- [ ] Approximated likelihood methods
+		- [ ] Kessler method
 
 ## Support me
 
