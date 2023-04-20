@@ -12,6 +12,8 @@ My similar projects
 ## Current Roadmap
 
 - [ ] Optimization algorithms
+	- [ ] Powell
+	- [x] Nelder-Mead
 - [ ] Random number generation
 - [ ] Distribution fitting
 - [ ] Simulating stochastic differential equations
