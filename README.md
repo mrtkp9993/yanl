@@ -19,7 +19,7 @@ My similar projects
 - [ ] Random number generation
 - [ ] Distribution fitting
 - [ ] Simulating stochastic differential equations
-	- [ ] Euler scheme
+	- [x] Euler scheme
 	- [ ] Milstein scheme 
 - [ ] Estimating stochastic differential equations
 	- [ ] Pseudo-likelihood methods

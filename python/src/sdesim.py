@@ -1,7 +1,9 @@
 import numpy as np
 
 
-def brownianMotion(tend, dt, x0):
+def brownianMotion(tend, dt, x0, seed=None):
+    if seed is not None:
+        np.random.seed(seed)
     t = np.arange(0, tend, dt)
     x = np.zeros(t.shape)
     x[0] = x0
@@ -10,7 +12,9 @@ def brownianMotion(tend, dt, x0):
     return x
 
 
-def geometricBrownianMotion(tend, dt, x0, mu, sigma):
+def geometricBrownianMotion(tend, dt, x0, mu, sigma, seed=None):
+    if seed is not None:
+        np.random.seed(seed)
     t = np.arange(0, tend, dt)
     x = np.zeros(t.shape)
     x[0] = x0
@@ -21,12 +25,15 @@ def geometricBrownianMotion(tend, dt, x0, mu, sigma):
     return x
 
 
-def brownianBridge(tend, dt, x0, x1):
+def diffsim1d(drift, diffusion, x0, tend, dt, seed=None):
+    if seed is not None:
+        np.random.seed(seed)
     t = np.arange(0, tend, dt)
     x = np.zeros(t.shape)
     x[0] = x0
-    W = brownianMotion(tend, dt, x0)
-    for i in range(1, len(t) - 1):
-        x[i] = x0 + W[i] - (i / len(t)) * (W[i] - x1 + x0)
-    x[-1] = x1
+    W = np.zeros(t.shape)
+    for i in range(1, len(t)):
+        dW = np.random.normal(0, np.sqrt(dt))
+        W[i] = W[i - 1] + dW
+        x[i] = x[i - 1] + drift(x[i - 1]) * dt + diffusion(x[i - 1]) * dW
     return x
