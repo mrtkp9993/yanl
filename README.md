@@ -1,6 +1,8 @@
 
 # Yet Another Numeric Library
 
+[![Tests](https://github.com/mrtkp9993/yanl/actions/workflows/pytest.yml/badge.svg)](https://github.com/mrtkp9993/yanl/actions/workflows/pytest.yml)
+
 My similar projects
 
 * [MCMC in Nim](https://github.com/mrtkp9993/nim-mcmc)
