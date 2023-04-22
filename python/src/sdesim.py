@@ -130,7 +130,7 @@ def diffsim1dmil(drift, diffusion, diffusionx, x0, tend, dt, seed=None):
         x[i] = (
             x[i - 1]
             + drift(x[i - 1], t[i - 1]) * dt
-            + diffusion(x[i - 1, t[i - 1]]) * dW
+            + diffusion(x[i - 1], t[i - 1]) * dW
             + 0.5
             * diffusion(x[i - 1], t[i - 1])
             * diffusionx(x[i - 1], t[i - 1])

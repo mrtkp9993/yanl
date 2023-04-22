@@ -122,3 +122,35 @@ class EulerMaruyama(TestCase):
     #     plt.scatter(x, x_sim)
     #     plt.show()
     #     self.assertTrue(np.allclose(x, x_sim, atol=0.1))
+
+
+class Milstein(TestCase):
+    def test_ouprocess(self):
+        theta = 1
+        sigma = 1
+        mu = 0
+
+        def drift(x, t):
+            return theta * (mu - x)
+
+        def diffusion(x, t):
+            return sigma
+
+        def diffusionx(x, t):
+            return 0
+
+        tend = 1
+        dt = 0.01
+        x0 = 0
+        means = []
+        vars = []
+        for i in range(1000):
+            x = diffsim1dmil(drift, diffusion, diffusionx, x0, tend, dt, seed=12345)
+            means.append(np.mean(x))
+            vars.append(np.var(x))
+
+        self.assertAlmostEqual(
+            np.mean(means),
+            x0 * np.exp(-theta * tend) + mu * (1 - np.exp(-theta * tend)),
+            delta=0.01,
+        )
