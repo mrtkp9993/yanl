@@ -137,3 +137,25 @@ def diffsim1dmil(drift, diffusion, diffusionx, x0, tend, dt, seed=None):
             * (dW**2 - dt)
         )
     return x
+
+
+def diffsim1dso(drift, driftx, driftxx, driftt, diffusion, x0, tend, dt, seed=None):
+    if seed is not None:
+        np.random.seed(seed)
+    t = np.arange(0, tend, dt)
+    x = np.zeros(t.shape)
+    x[0] = x0
+    sigma = diffusion(x0, t[0])
+    for i in range(1, len(t)):
+        Lx = driftx(x[i - 1], t[i - 1])
+        Mx = sigma**2 * driftxx(x[i - 1], t[i - 1]) / 2 + driftt(x[i - 1], t[i - 1])
+        if Lx == 0:
+            Ex = x[i - 1] + Mx * dt
+            Vx = sigma**2 * dt
+        else:
+            Ex = (
+                x[i - 1] + drift(x[i - 1], t[i - 1]) * (np.exp(Lx * dt) - 1)
+            ) / Lx + Mx * (np.exp(Lx * dt) - 1) / Lx**2
+            Vx = sigma**2 * (np.exp(2 * Lx * dt) - np.exp(Lx * dt)) / (2 * Lx)
+        x[i] = np.random.normal(Ex, np.sqrt(Vx))
+    return x

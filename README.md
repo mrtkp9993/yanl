@@ -22,6 +22,7 @@ My similar projects
 	- [x] Diffusion process
 		- [x] Euler scheme
 		- [x] Milstein scheme
+		- [x] Shoji-Ozaki scheme
 	- [ ] Fractional process
 	- [ ] Compound Poission process
 	- [ ] Point process

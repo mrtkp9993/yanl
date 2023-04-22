@@ -93,6 +93,39 @@ class EulerMaruyama(TestCase):
             delta=0.01,
         )
 
+    def test_bsm(self):
+        r = 0.05
+        sigma = 0.2
+
+        def drift(x, t):
+            return r * x
+
+        def diffusion(x, t):
+            return sigma * x
+
+        x0 = 100
+        tend = 1
+        dt = 0.01
+        means = []
+        vars = []
+        for i in range(1000):
+            x = diffsim1dem(drift, diffusion, x0, tend, dt, seed=123)
+            means.append(np.mean(x))
+            vars.append(np.var(x))
+
+        expected_mean = x0 * np.exp(r * tend)
+        expected_var = x0**2 * np.exp(2 * 0.05 * tend) * (np.exp(0.2**2 * tend) - 1)
+        self.assertAlmostEqual(
+            np.mean(means),
+            expected_mean,
+            delta=0.1 * expected_mean,
+        )
+        # self.assertAlmostEqual(
+        #     np.mean(vars),
+        #     expected_var,
+        #     delta=0.1 * expected_var,
+        # )
+
     # def test_cir(self):
     #     # Read test data
     #     with open("tests/data/cir.txt") as f:
@@ -146,6 +179,82 @@ class Milstein(TestCase):
         vars = []
         for i in range(1000):
             x = diffsim1dmil(drift, diffusion, diffusionx, x0, tend, dt, seed=12345)
+            means.append(np.mean(x))
+            vars.append(np.var(x))
+
+        self.assertAlmostEqual(
+            np.mean(means),
+            x0 * np.exp(-theta * tend) + mu * (1 - np.exp(-theta * tend)),
+            delta=0.01,
+        )
+
+    def test_bsm(self):
+        r = 0.05
+        sigma = 0.2
+
+        def drift(x, t):
+            return r * x
+
+        def diffusion(x, t):
+            return sigma * x
+
+        def diffusionx(x, t):
+            return sigma
+
+        x0 = 100
+        tend = 1
+        dt = 0.01
+        means = []
+        vars = []
+        for i in range(1000):
+            x = diffsim1dmil(drift, diffusion, diffusionx, x0, tend, dt, seed=123)
+            means.append(np.mean(x))
+            vars.append(np.var(x))
+
+        expected_mean = x0 * np.exp(r * tend)
+        expected_var = x0**2 * np.exp(2 * 0.05 * tend) * (np.exp(0.2**2 * tend) - 1)
+        self.assertAlmostEqual(
+            np.mean(means),
+            expected_mean,
+            delta=0.1 * expected_mean,
+        )
+        # self.assertAlmostEqual(
+        #     np.mean(vars),
+        #     expected_var,
+        #     delta=0.1 * expected_var,
+        # )
+
+
+class SO(TestCase):
+    def test_ouprocess(self):
+        theta = 1
+        sigma = 1
+        mu = 0
+
+        def drift(x, t):
+            return theta * (mu - x)
+
+        def driftx(x, t):
+            return -theta
+
+        def driftxx(x, t):
+            return 0
+
+        def driftt(x, t):
+            return 0
+
+        def diffusion(x, t):
+            return sigma
+
+        tend = 1
+        dt = 0.01
+        x0 = 0
+        means = []
+        vars = []
+        for i in range(1000):
+            x = diffsim1dso(
+                drift, driftx, driftxx, driftt, diffusion, x0, tend, dt, seed=12345
+            )
             means.append(np.mean(x))
             vars.append(np.var(x))
 
