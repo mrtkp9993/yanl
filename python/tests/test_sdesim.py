@@ -8,46 +8,60 @@ from src.sdesim import *
 
 
 class BrownianMotion(TestCase):
-    def testQuadraticVar(self):
-        tend = 1
-        dt = 0.01
-        x0 = 0
-        qvs = []
-        for i in range(1000):
-            x = brownianMotion(tend, dt, x0)
-            qvs.append(np.sum(np.diff(x) ** 2))
-        self.assertAlmostEqual(np.mean(qvs), tend, delta=0.1)
+    def setUp(self):
+        self.tend1 = 1
+        self.tend2 = 2
+        self.dt = 0.01
+        self.x0 = 0
 
-        tend = 2
+    def testQuadraticVarte1(self):
         qvs = []
         for i in range(1000):
-            x = brownianMotion(tend, dt, x0)
+            x = brownianMotion(self.x0, self.tend1, self.dt)
             qvs.append(np.sum(np.diff(x) ** 2))
-        self.assertAlmostEqual(np.mean(qvs), tend, delta=0.1)
+        self.assertAlmostEqual(np.mean(qvs), self.tend1, delta=0.1)
+
+    def testQuadraticVarte2(self):
+        qvs = []
+        for i in range(1000):
+            x = brownianMotion(self.x0, self.tend2, self.dt)
+            qvs.append(np.sum(np.diff(x) ** 2))
+        self.assertAlmostEqual(np.mean(qvs), self.tend2, delta=0.1)
 
 
 class GeometricBrownianMotion(TestCase):
-    def testQuadraticVar(self):
-        tend = 1
-        dt = 0.01
-        x0 = 1
-        mu = 0.1
-        sigma = 0.1
+    def setUp(self):
+        self.tend1 = 1
+        self.tend2 = 2
+        self.dt = 0.01
+        self.x0 = 1
+        self.mu = 0.1
+        self.sigma = 0.1
+
+    def testQuadraticVarte1(self):
         qvs = []
         for i in range(1000):
-            x = geometricBrownianMotion(tend, dt, x0, mu, sigma)
+            x = geometricBrownianMotion(
+                self.mu, self.sigma, self.x0, self.tend1, self.dt
+            )
             qvs.append(np.sum(np.diff(x) ** 2))
         self.assertAlmostEqual(
-            np.mean(qvs), sigma**2 * tend * (np.exp(2 * mu * tend) - 1), delta=0.1
+            np.mean(qvs),
+            self.sigma**2 * self.tend1 * (np.exp(2 * self.mu * self.tend1) - 1),
+            delta=0.1,
         )
 
-        tend = 2
+    def testQuadraticVarte2(self):
         qvs = []
         for i in range(1000):
-            x = geometricBrownianMotion(tend, dt, x0, mu, sigma)
+            x = geometricBrownianMotion(
+                self.mu, self.sigma, self.x0, self.tend2, self.dt
+            )
             qvs.append(np.sum(np.diff(x) ** 2))
         self.assertAlmostEqual(
-            np.mean(qvs), sigma**2 * tend * (np.exp(2 * mu * tend) - 1), delta=0.1
+            np.mean(qvs),
+            self.sigma**2 * self.tend2 * (np.exp(2 * self.mu * self.tend2) - 1),
+            delta=0.1,
         )
 
 
@@ -69,7 +83,7 @@ class EulerMaruyama(TestCase):
         means = []
         vars = []
         for i in range(1000):
-            x = diffsim1d(drift, diffusion, x0, tend, dt, seed=12345)
+            x = diffsim1dem(drift, diffusion, x0, tend, dt, seed=12345)
             means.append(np.mean(x))
             vars.append(np.var(x))
 
