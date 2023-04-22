@@ -71,10 +71,10 @@ class EulerMaruyama(TestCase):
         sigma = 1
         mu = 0
 
-        def drift(x):
+        def drift(x, t):
             return theta * (mu - x)
 
-        def diffusion(x):
+        def diffusion(x, t):
             return sigma
 
         tend = 1
@@ -92,3 +92,33 @@ class EulerMaruyama(TestCase):
             x0 * np.exp(-theta * tend) + mu * (1 - np.exp(-theta * tend)),
             delta=0.01,
         )
+
+    # def test_cir(self):
+    #     # Read test data
+    #     with open("tests/data/cir.txt") as f:
+    #         x = []
+    #         for line in f.readlines():
+    #             x.append(float(line))
+
+    #     # Set simulation parameters
+    #     def drift(x, t):
+    #         return 6 - 3 * x
+
+    #     def diffusion(x, t):
+    #         return 2 * np.sqrt(x)
+
+    #     x0 = 10
+    #     tend = 1
+    #     dt = 0.01
+
+    #     # Simulate
+    #     x_sim = diffsim1dem(drift, diffusion, x0, tend, dt, seed=123)
+
+    #     # Compare
+    #     for i in range(100):
+    #         print(x[i], x_sim[i])
+    #     import matplotlib.pyplot as plt
+
+    #     plt.scatter(x, x_sim)
+    #     plt.show()
+    #     self.assertTrue(np.allclose(x, x_sim, atol=0.1))

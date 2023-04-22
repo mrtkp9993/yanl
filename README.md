@@ -19,8 +19,12 @@ My similar projects
 - [ ] Random number generation
 - [ ] Distribution fitting
 - [ ] Simulating stochastic differential equations
-	- [x] Euler scheme
-	- [ ] Milstein scheme 
+	- [x] Diffusion process
+		- [x] Euler scheme
+		- [x] Milstein scheme
+	- [ ] Fractional process
+	- [ ] Compound Poission process
+	- [ ] Point process
 - [ ] Estimating stochastic differential equations
 	- [ ] Pseudo-likelihood methods
 		- [ ] Euler method
